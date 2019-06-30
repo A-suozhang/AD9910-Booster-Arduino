@@ -91,3 +91,6 @@ uint8_t profile0[8] = {0x3F, 0x3F, 0x00, 0x00, 0x25, 0x09, 0x7b, 0x42};
 ## 接线
 * ![](AD9910-ESP32-LINK.png)
 * ![](AD9910-Digest.png)
+
+##
+* 感谢@CNLHC对本弱智在调试过程中的帮助
