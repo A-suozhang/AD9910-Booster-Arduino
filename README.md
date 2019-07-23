@@ -38,6 +38,10 @@
     |DRC/DRHOLD/DROVER| AD9910对应引脚(没有用到DR模式,拉低)| LOW|
     |PS0/PS1/PS2|AD9910的Profile选择,三位PS选择8个Profile,都拉低选Profile0|LOW|
     |OSK|禁用OSK|LOW
+* 如果想要使用HSPI(并非默认的VSPI),请参考AD9910.h Remastered, 包含了正确用法(涉及一些指针操作)
+   * 使用范例在ESP32_UI_TEST.ino中
+   * 使用中有一些坑点
+    * 在Arduino-ESP32 v1.0.0上通过(但是在v1.0.1/2上会报错)  [!]已经证实是UI的问题,与SPI无关,可以正常使用
 
 ## 函数简介
 * AD9910::begin()  
