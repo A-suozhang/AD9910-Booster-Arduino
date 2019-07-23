@@ -19,7 +19,9 @@
     DDS.begin()
     ```
 * 调用AD9910的set_Amp, set_freq函数设置DDS输出
-    * !注意两个函数的输入参数均为double型,直接输入100.0则为float型,可能会出现问题
+    * !注意两个函数的输入参数均为double型
+     * 直接输入100.0则为float型,可以
+     * 直接输入100位int,也可以
     * freq的输入单位为Hz
     * Amp的输入单位为mV(Vpp),注意输出范围在Vpp 500mV左右就饱和了
 * 引脚定义: (针对ESP32)
