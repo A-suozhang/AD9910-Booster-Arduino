@@ -1,0 +1,98 @@
+#include <Arduino.h>
+#include <HardwareSerial.h>
+#include "UIX/UIX.h"
+#include "UIX/AD9910.h"
+#include <String.h>
+#include <SPI.h>
+// -------- A Few Define ------------
+# define cs 15
+# define rst 25
+# define update 26
+# define sdio 13
+# define sclk 14
+
+# define CLOCKSPEED 1000000
+# define uchar unsigned char
+
+
+
+// ------ Setting Up A Few Elements -------------
+SPIClass * hspi = NULL;
+AD9910 * DDS = NULL;
+UIX uix;
+
+double freq = 1000000.0;    // real_freq*100
+double amp = 500.0;
+
+//button click callbacks
+void btnsendclick0(int tag,UIXButton* obj);
+void btnsendclick1(int tag,UIXButton* obj);
+void btnsendclick2(int tag,UIXButton* obj);
+
+char sendstr_freq[100]="";
+char sendstr_amp[100]="";
+char str_freq[100]="Frequency";
+char str_amp[100]="Amplitude";
+
+UIXInputBox inptsend0(20,120,20,50,COLVSBLUE,COLCYAN,sendstr_freq);   //input box
+UIXInputBox inptsend1(20,120,50,70,COLVSBLUE,COLCYAN,sendstr_amp);   //input box
+
+UIXButton btnsend0(20,120,80,110,COLVSBLUE,COLCYAN,"Sweep",btnsendclick0);
+UIXButton btnsend1(130,190,20,50,COLVSBLUE,COLCYAN,"Set Freq",btnsendclick1);
+UIXButton btnsend2(130,190,50,70,COLVSBLUE,COLCYAN,"Set Amp",btnsendclick2);
+
+
+//called when btnsend is clicked
+void btnsendclick0(int tag,UIXButton* obj){
+    Serial.println("Sweep!");
+    for (int i=0;i<40;i++){
+        DDS->set_freq(1000000*(i+1));
+    }
+}
+
+void btnsendclick1(int tag,UIXButton* obj){
+    Serial.print("Get Freq:");
+    DDS->set_freq(atof(sendstr_freq));
+    Serial.println(float(atoi(sendstr_freq)));
+}
+void btnsendclick2(int tag,UIXButton* obj){
+    Serial.print("Get Amp:");
+    DDS->set_amp(atof(sendstr_amp));
+    Serial.println(sendstr_amp);
+}
+
+void setup(){
+    // Set Up Hardware
+    Serial.begin(115200);
+    hspi = new SPIClass(HSPI);
+    if(hspi==NULL)
+        Serial.print("SPI INITIALIZATION FAILED.");
+    hspi->begin();
+    //SCLK = 14, MISO = 12, MOSI = 13, SS = 15
+    DDS = new AD9910(cs,rst,update,sdio,sclk,hspi);
+    
+    DDS->begin();
+    // Initial_Value
+    DDS->set_Amp(500.0);
+    DDS->set_freq(1000000.0);
+    
+
+    // Set Up The UI
+    uixuserpanelnum=1;  //no more than 46
+    uixpanels[0].label="SerialTest";
+    //add objects to panel 0
+    uixpanels[0].uixobjects+=inptsend0;
+    uixpanels[0].uixobjects+=inptsend1;
+    uixpanels[0].uixobjects+=btnsend0;
+    uixpanels[0].uixobjects+=btnsend1;
+    uixpanels[0].uixobjects+=btnsend2;
+    uix.begin();
+}
+
+void loop(){
+    uix.tick();
+
+
+
+}
+
