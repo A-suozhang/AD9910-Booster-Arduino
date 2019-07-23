@@ -27,9 +27,9 @@
 
     | Name        | Description      | Pin  |
     |---------------|:-------------:|------:|
-    | CS (CSB)   | ESP32 VSPI's SS | 5 |
-    | SCLK      | ESP32 VSPI's SCLK |   18 |
-    | SDIO | ESP32 VSPI's MOSI    |    23 |
+    | CS (CSB)   | ESP32 VSPI's SS | 5 (15)|
+    | SCLK      | ESP32 VSPI's SCLK |   18(14) |
+    | SDIO | ESP32 VSPI's MOSI    |    23(13) |
     | RST | AD9910's MASTER_RESET|  16|
     |UPDATE| AD9910's IO_UPDATE| 17|
     |PWR| AD9910's EXT_PWR_DOWN  (一定要拉低,不然不工作| LOW|
@@ -89,6 +89,8 @@ uint8_t profile0[8] = {0x3F, 0x3F, 0x00, 0x00, 0x25, 0x09, 0x7b, 0x42};
     * 所以低8位为00110010 0x32
 
 ## 接线
+* 单片机和9910一定要共地!不然烧进去波形不对
+* 注意不要用到其他模块占用的线...
 * ![](AD9910-ESP32-LINK.png)
 * ![](AD9910-Digest.png)
 
