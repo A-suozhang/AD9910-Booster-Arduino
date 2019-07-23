@@ -61,6 +61,7 @@
     * 先改变profile的值,再将整个profile写入
 * AD9910::set_Amp(double amp, uint8_t profile = 0)
     * *改变Amp的函数*
+* 上面两个函数直接往里写 set_Amp(100.0)是ok的
 ## Tips
 * 整个流程最难的地方就是写控制字...由于支持的功能比较多,所以很容易错,下面会单独开一个Section讲这个问题...
 * 有大佬说这个SPI的时序比较奇怪,但是我这边貌似用SPI的默认MODE0就能运行
